@@ -1,0 +1,127 @@
+<html>
+<head>
+	<title>xy etude</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="css/animate.css">
+	<link href='http://fonts.googleapis.com/css?family=Quicksand:400,700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" href="css/font-awesome.css">
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="fonts/fontawesome-webfont.eot">
+</head>
+
+<body>
+<div class="navigation">
+	<div class="top-bar">
+		<a href="index.htm"><h1><i class="fa fa-angle-left"></i></h1></a>
+		<h2>feedback</h2>
+		<button class="btn-1">Invia un tuo parere</button>
+	</div>
+</div>
+
+<div class="feedbacks-form slideInDown animated">
+	<h1>Lascia un Feedback . . .</h1>
+	<h2><i class="fa fa-remove"></i></h2>
+	<div class="form-feeds">
+		<form id="feedbackForm" action="php_feedback/insert_feedback.php" method="POST">
+			<input type="text" name="name" placeholder="Inserisci il tuo nome">
+			<input type="text" name="surname" placeholder="Inserisci il tuo cognome">
+			<textarea name="message" placeholder="Cosa ne pensi ?"></textarea>
+			<button type="submit">Invia</button>
+		</form>
+	</div>
+</div>
+
+
+<div id="allFeedbacks">
+	<h2>Tutti i Feedbacks</h2>
+	<div class="content">
+	
+	</div>
+</div>
+
+
+
+<div id="feedbackClone" class="new-feedback" style="display: none;">
+	<h4>Feedback inserito con successo!</h4>
+	<h3></h3>
+    <p></p>
+</div>
+<div id="feedbackCloneList" class="list-feedback" style="display: none;">
+	<h3></h3>
+    <p></p>
+</div>
+</body>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    $("h2").click(function(){
+        $(".feedbacks-form").fadeOut()
+    });
+    $(".btn-1").click(function(){
+        $(".feedbacks-form").fadeIn();
+    });
+	
+	$("#feedbackForm").submit(function(e){
+		e.preventDefault();
+		
+		var thisForm = $(this), 
+			name = $('input[name=name]', thisForm).val(), 
+			surname = $('input[name=surname]', thisForm).val(), 
+			message = $('textarea[name=message]', thisForm).val();
+		
+		$.ajax({
+			url: thisForm.attr('action'),
+			method: thisForm.attr('method'),
+			dataType: 'json',
+			data: {name: name, surname: surname, message: message},
+			success: function(json){
+				if(json.success == true){
+					thisForm.parent().fadeOut();
+					
+					var feedback_html = $("#feedbackClone").clone();
+					
+					feedback_html.attr('id', json.feedback.id);
+					feedback_html.find('h3').text(json.feedback.name+' '+json.feedback.surname+' - '+json.feedback.ts_created);
+					feedback_html.find('p').text(json.feedback.message);
+					
+					thisForm.parent().after(feedback_html);
+					feedback_html.fadeIn();
+				} else {
+					alert('Feedback non inserito correttamente, per favore riprovare più tardi :/');
+				}
+			},
+			fail: function(){
+				alert('Feedback non inserito correttamente, per favore riprovare più tardi :/');
+			}
+		});
+		
+		return false;
+	});
+	
+	
+	$.ajax({
+		url: 'php_feedback/get_feedbacks.php',
+		method: 'GET',
+		dataType: 'json',
+		success: function(json){
+			if(json.success == true){				
+				for(var i in json.feedbacks){
+					var feedback = json.feedbacks[i];
+					
+					var feedback_html = $("#feedbackCloneList").clone();
+					
+					feedback_html.attr('id', feedback.id);
+					feedback_html.find('h3').text(feedback.name+' '+feedback.surname+' - '+feedback.ts_created);
+					feedback_html.find('p').text(feedback.message);
+					
+					$("#allFeedbacks .content").prepend(feedback_html);
+					feedback_html.fadeIn();
+				}
+			}
+		}
+	});
+});
+</script>
+</html>
