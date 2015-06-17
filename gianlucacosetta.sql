@@ -26,12 +26,12 @@ SET time_zone = "+00:00";
 -- Table structure for table `feedbacks`
 --
 
-CREATE TABLE IF NOT EXISTS `feedbacks` (
+CREATE TABLE IF NOT EXISTS `feedbacks1` (
   `id` bigint(20) unsigned NOT NULL,
   `name` varchar(255) NOT NULL,
   `surname` varchar(255) NOT NULL,
   `message` text NOT NULL,
   `status` varchar(30) NOT NULL,
   `ts_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `ts_edited` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
+  `ts_edited` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
