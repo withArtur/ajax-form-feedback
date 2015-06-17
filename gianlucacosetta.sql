@@ -33,5 +33,5 @@ CREATE TABLE IF NOT EXISTS `feedbacks` (
   `message` text NOT NULL,
   `status` varchar(30) NOT NULL,
   `ts_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `ts_edited` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
+  `ts_edited` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
