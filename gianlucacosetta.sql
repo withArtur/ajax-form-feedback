@@ -26,7 +26,7 @@ SET time_zone = "+00:00";
 -- Table structure for table `feedbacks`
 --
 
-CREATE TABLE IF NOT EXISTS `feedbacks1` (
+CREATE TABLE IF NOT EXISTS `feedbacks` (
   `id` bigint(20) unsigned NOT NULL,
   `name` varchar(255) NOT NULL,
   `surname` varchar(255) NOT NULL,
