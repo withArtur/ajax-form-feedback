@@ -1,6 +1,7 @@
 <?php
 define('DS', DIRECTORY_SEPARATOR);
 require_once dirname(dirname(__FILE__)).DS.'libraries'.DS.'mysqli.php';
+header('Content-type: application/json');
 
 $db = new Database_Mysqli('localhost', 'root', '', 'gianlucacosetta');
 
