@@ -25,7 +25,7 @@ $db->query("SELECT * FROM `feedbacks` WHERE id = {$last_id}");
 $last_feedback = $db->fetch();
 
 if($last_id > 0){
-	mail('withArtur@gmail.com', 'Inserito un Feedback sul sito ....', 'Testo della mail magari un link alla pagina da aprire ...');
+	// use your own mail in address field // mail('withArtur@gmail.com', 'Inserito un Feedback sul sito ....', 'Testo della mail magari un link alla pagina da aprire ...');
 	echo json_encode(array('success' => true, 'feedback' => $last_feedback));
 	return;
 } else {
